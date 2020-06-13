@@ -13,12 +13,14 @@ app.set("layout", "layouts/layout");
 app.use(expressLayouts);
 app.use(express.static("public"));
 
-// mongoose
-//   .connect(process.env.DATABASE_URL, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
-//   })
-//   .catch(err => console.log(err));
+process.env.NODE_ENV !== "production"
+  ? mongoose
+      .connect(process.env.DATABASE_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
+      .catch(err => console.log(err))
+  : null;
 const db = mongoose.connection;
 db.on("error", error => console.error(error));
 db.once("open", () => console.log("Connected to Mongoose"));
